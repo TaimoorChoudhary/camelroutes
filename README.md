@@ -1,6 +1,6 @@
 # Apache Camel Routes
 
-Technology stack:
+#### Technology stack:
 - Maven
 - Apache Camel
 - MySql
@@ -8,7 +8,7 @@ Technology stack:
 - Spring-boot
 - Spring Integration DSL
 
-Helper libraries:
+#### Helper libraries:
 - MapStruct
 - Lombok
 
@@ -22,7 +22,7 @@ set as active. Incase different endpoints are to be added application-dev.yml ca
 ### Exposed endpoints:
 Application exposed `/api/persons` endpoint for CRUD operations. 
 
-###Application Summary
+### Application Summary
 Creating of a new person object is managed through messages delivered
  via activeMQ messaging queue. As the REST call comes in the request body is sent over Apache Camel to add a message comment in Person object
  and then its sent over to ActiveMQ message queue. Spring Integration DSL subscribes to the ActiveMQ queue and when the 
