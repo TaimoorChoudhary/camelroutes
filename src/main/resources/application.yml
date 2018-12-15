@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: camel-routes
+  output:
+    ansi:
+      enabled: always
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
+#      hibernate.idnew_generator_mappings: false
+  liquibase:
+    contexts: dev
+    change-log: classpath:config/liquibase/master.xml
+
+camelroutes:
+  activemq:
+    person-queue: test.queue
+
+server:
+  port: 8080
