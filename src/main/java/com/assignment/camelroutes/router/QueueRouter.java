@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import static com.assignment.camelroutes.config.constants.RouteConstants.QUEUE_PROCESSOR_ENDPOINT;
 import static com.assignment.camelroutes.config.constants.RouteConstants.QUEUE_PROCESSOR_ID;
 
+/**
+ * Class is responsible for routing incoming person object to intended queue processors
+ */
 @Component
 public class QueueRouter extends RouteBuilder {
 
@@ -19,6 +22,11 @@ public class QueueRouter extends RouteBuilder {
         this.camelRoutesProperties = camelRoutesProperties;
         this.jmsTemplate = jmsTemplate;
     }
+
+    /**
+     * Sends incoming Person object to processor to be uploaded on messaging queue
+     * @throws Exception
+     */
     @Override
     public void configure() throws Exception {
         from(QUEUE_PROCESSOR_ENDPOINT)

@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 
 import static com.assignment.camelroutes.config.constants.RouteConstants.PERSON_PROCESSOR_ENDPOINT;
 
+/**
+ * Class is responsible for handling Person CRUD operations
+ */
 @Slf4j
 @Service
 public class PersonServiceImp implements PersonService {
@@ -36,6 +39,11 @@ public class PersonServiceImp implements PersonService {
         this.personRepository = personRepository;
     }
 
+    /**
+     * Saves the incoming Person object by sending it over Apache Camel routing
+     * @param personDto
+     * @return
+     */
     @Override
     public PersonDto save(PersonDto personDto) {
 
@@ -47,11 +55,16 @@ public class PersonServiceImp implements PersonService {
         final Exchange responseExchange = producer.send(PERSON_PROCESSOR_ENDPOINT, requestExchange);
         final Person responseBody = responseExchange.getOut().getBody(Person.class);
 
-        PersonDto result = personMapper.toDto(person);
+        PersonDto result = personMapper.toDto(responseBody);
 
         return result;
     }
 
+    /**
+     * Find Person for the given ID
+     * @param id
+     * @return
+     */
     @Override
     public Optional<PersonDto> findOne(Long id) {
 
@@ -60,6 +73,10 @@ public class PersonServiceImp implements PersonService {
         return personRepository.findById(id).map(personMapper::toDto);
     }
 
+    /**
+     * Find all available Persons
+     * @return
+     */
     @Override
     public List<PersonDto> findAll() {
 
@@ -70,6 +87,10 @@ public class PersonServiceImp implements PersonService {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
+    /**
+     * Delete Person for the given ID
+     * @param id
+     */
     @Override
     public void delete(Long id) {
 

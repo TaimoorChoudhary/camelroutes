@@ -6,6 +6,9 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.http.HttpStatus;
 
+/**
+ * Class is responsible for updating Person's object via Camel Apache process
+ */
 @Slf4j
 public class PersonProcessor implements Processor {
 

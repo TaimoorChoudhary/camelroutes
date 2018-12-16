@@ -11,6 +11,10 @@ import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.JMSException;
 
+/**
+ * Class is responsible for processing Person's object to be sent over on messaging queue
+ * which is received via Apache Camel process
+ */
 @Slf4j
 public class QueueProcessor implements Processor {
 
@@ -23,6 +27,11 @@ public class QueueProcessor implements Processor {
         this.jmsTemplate = jmsTemplate;
     }
 
+    /**
+     * Manages further actions for Person object received via Camel Route
+     * @param exchange
+     * @throws Exception
+     */
     @Override
     public void process(Exchange exchange) throws Exception {
 
@@ -30,12 +39,26 @@ public class QueueProcessor implements Processor {
 
         //Get incoming Person Object
         Person person = exchange.getIn().getBody(Person.class);
-        sendMessage(person);
 
         exchange.getOut().setBody(person);
         exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.ACCEPTED);
+
+        try {
+            sendMessage(person);
+        }catch (Exception exception){
+
+            log.error("Unable to send Person on intended queue: {}", exception);
+
+            exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+    /**
+     * Send incoming Person object over the messaging queue
+     * @param person
+     * @throws JMSException
+     * @throws JsonProcessingException
+     */
     public void sendMessage(Person person) throws JMSException, JsonProcessingException {
 
         // Convert the updated value to JSON

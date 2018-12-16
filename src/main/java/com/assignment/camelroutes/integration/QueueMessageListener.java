@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.jms.ConnectionFactory;
 
+/**
+ * Class is responsible for listening to ActiveMQ messaging queue
+ */
 @Service
 public class QueueMessageListener {
 
@@ -20,7 +23,10 @@ public class QueueMessageListener {
         this.jmsConnectionFactory = jmsConnectionFactory;
     }
 
-
+    /**
+     * Listener for messaging queue, and sends received data to handler for further processing
+     * @return
+     */
     @Bean
     public IntegrationFlow inboundFlow() {
         return IntegrationFlows.from(Jms.inboundGateway(jmsConnectionFactory)

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Class is responsible for processing the de-queued message and save into database
+ */
 @Slf4j
 @Component
 public class QueueMessageHandler {
@@ -18,6 +21,10 @@ public class QueueMessageHandler {
         this.personRepository = personRepository;
     }
 
+    /**
+     * Save incoming Person object in database
+     * @param message
+     */
     public void process(String message){
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -30,7 +37,9 @@ public class QueueMessageHandler {
             Person person = objectMapper.readValue(message, Person.class);
 
             // Save Person object in DB
-            personRepository.save(person);
+            Person savedPerson = personRepository.save(person);
+
+            log.debug("Person save in DB: {}", savedPerson);
 
         } catch (IOException exception) {
             log.error("Unable to parse incoming JSON to Person Object: {}", exception);
