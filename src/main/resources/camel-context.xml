@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+          http://camel.apache.org/schema/spring
+          http://camel.apache.org/schema/spring/camel-spring.xsd
+          http://www.springframework.org/schema/util
+          http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+        <!-- Person Router -->
+        <route>
+            <from uri="direct:Person" />
+            <log message="Routing personDto to Person Processor (from xml)"/>
+            <process ref="personProcessor"/>
+            <to uri="direct:Queue" />
+        </route>
+
+        <!-- Queue Router -->
+        <route>
+            <from uri="direct:Queue"/>
+            <log message="Routing personDto to Queue Processor (from xml)"/>
+            <process ref="queueProcessor"/>
+        </route>
+    </camelContext>
+
+
+    <!-- Beans -->
+
+    <!-- Person Processor-->
+    <bean id="personProcessor" class="com.assignment.camelroutes.processor.PersonProcessor" />
+
+    <!-- Queue Processor-->
+    <bean id="queueProcessor" class="com.assignment.camelroutes.processor.QueueProcessor" >
+        <constructor-arg index="0" value="${camelroutes.activemq.person-queue}"/>
+        <constructor-arg index="1" ref="jmsTemplate"/>
+    </bean>
+</beans>
