@@ -85,6 +85,11 @@
 			<artifactId>camel-spring-boot-starter</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-camel</artifactId>
+			<version>5.15.8</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.mapstruct</groupId>
