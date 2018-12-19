@@ -15,27 +15,24 @@
         <route>
             <from uri="direct:Person" />
             <log message="Routing personDto to Person Processor (from xml)"/>
-            <process ref="personProcessor"/>
-            <to uri="direct:Queue" />
+            <to uri="bean:camelRouteProcessor?method=personProcessor"/>
+            <to uri="activemq:queue:{{camelroutes.activemq.person-queue}}"/>
         </route>
 
         <!-- Queue Router -->
         <route>
-            <from uri="direct:Queue"/>
-            <log message="Routing personDto to Queue Processor (from xml)"/>
-            <process ref="queueProcessor"/>
+            <from uri="activemq:queue:{{camelroutes.activemq.person-queue}}"/>
+            <log message="Message received inside ActiveMQ router (from xml)"/>
+            <to uri="bean:camelRouteProcessor?method=queueProcessor"/>
         </route>
     </camelContext>
 
 
     <!-- Beans -->
 
-    <!-- Person Processor-->
-    <bean id="personProcessor" class="com.assignment.camelroutes.processor.PersonProcessor" />
-
-    <!-- Queue Processor-->
-    <bean id="queueProcessor" class="com.assignment.camelroutes.processor.QueueProcessor" >
-        <constructor-arg index="0" value="${camelroutes.activemq.person-queue}"/>
-        <constructor-arg index="1" ref="jmsTemplate"/>
+    <!-- Processor-->
+    <bean id="camelRouteProcessor" class="com.assignment.camelroutes.processor.CamelRouteProcessor">
+        <constructor-arg index="0" ref="personRepository"/>
     </bean>
+
 </beans>

@@ -51,13 +51,13 @@ public class PersonServiceImp implements PersonService {
 
         Person person = personMapper.toEntity(personDto);
 
-        final Exchange requestExchange = ExchangeBuilder.anExchange(camelContext).withBody(person).build();
-        final Exchange responseExchange = producer.send(PERSON_PROCESSOR_ENDPOINT, requestExchange);
-        final Person responseBody = responseExchange.getOut().getBody(Person.class);
+        final Exchange requestExchange = ExchangeBuilder
+                .anExchange(camelContext)
+                .withBody(person).build();
 
-        PersonDto result = personMapper.toDto(responseBody);
+        producer.send(PERSON_PROCESSOR_ENDPOINT, requestExchange);
 
-        return result;
+        return personMapper.toDto(person);
     }
 
     /**

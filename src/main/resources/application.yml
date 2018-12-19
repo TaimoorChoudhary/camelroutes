@@ -15,10 +15,12 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     properties:
       hibernate.jdbc.lob.non_contextual_creation: true
-#      hibernate.idnew_generator_mappings: false
   liquibase:
     contexts: dev
     change-log: classpath:config/liquibase/master.xml
+  activemq:
+    packages:
+      trust-all: true
 
 camelroutes:
   activemq:
