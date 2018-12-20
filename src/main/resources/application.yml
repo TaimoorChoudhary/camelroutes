@@ -18,9 +18,6 @@ spring:
   liquibase:
     contexts: dev
     change-log: classpath:config/liquibase/master.xml
-  activemq:
-    packages:
-      trust-all: true
 
 camelroutes:
   activemq:
