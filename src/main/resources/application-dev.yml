@@ -16,11 +16,9 @@ spring:
       hibernate.id.new_generator_mappings: true
       hibernate.connection.provider_disables_autocommit: true
 
-  activemq:
-    broker-url: tcp://127.0.0.1:61616
-    user: admin
-    password: admin
-
 camelroutes:
   activemq:
     person-queue: test.queue
+    broker-url: tcp://127.0.0.1:61616
+    user: admin
+    password: admin
