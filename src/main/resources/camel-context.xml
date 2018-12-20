@@ -35,4 +35,11 @@
         <constructor-arg index="0" ref="personRepository"/>
     </bean>
 
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="brokerURL" value="${camelroutes.activemq.broker-url}"/>
+        <property name="username" value="${camelroutes.activemq.user}"/>
+        <property name="password" value="${camelroutes.activemq.password}"/>
+        <property name="trustAllPackages" value="true"/>
+    </bean>
+
 </beans>
